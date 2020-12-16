@@ -2,18 +2,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card card-default">
-                <div class="card-header">Product List</div>
+                <div class="card-header">Login</div>
 
                 <div class="card-body">
-                    <ul class="list-group" >
-                        <li class="list-item list-group-item" v-for="product in products" :key="product.id">
-                            {{ product.name }}
-                            <router-link class="btn btn-primary" :to="{name:'productedit',params: { id: product.id }}">
-                                Edit
-                            </router-link>
-                            <button class="btn btn-danger" @click="deleteProduct(product.id)">Delete</button>
-                        </li>
-                    </ul>
+                     <div>
+                        <p v-show="isError">認証に失敗しました。</p>
+                        <form @submit.prevent="login">
+                            <h1>ログイン</h1>
+                            メールアドレス: <input type="email" v-model="email">
+                            パスワード: <input type="password" v-model="password">
+                            <button type="submit" class="btn btn-primary">ログイン</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,31 +22,38 @@
 
 <script>
     export default {
-        state: {
-            isLogin: false
-        },
         data() {
             return {
-                products: []
+                isError: false,
+                email: '',
+                password: '',
             }
         },
         created() {
-            this.axios.get('/api/product').then(response=>{
-                this.products = response.data;
-                console.log(this.products);
-            });
-        },
-        mounted() {
-            console.log('Component mounted.')
+            // this.axios.get('/api/product').then(response=>{
+            //     this.products = response.data;
+            //     console.log(this.products);
+            // });
         },
         methods: {
-            deleteProduct(id) {
-                console.log(id);
-                
-                this.axios.delete(`/api/product/delete/${id}`).then(response=>{        
-                    console.log(this.response.data);
+            login() {
+                console.log('login');
+                this.axios.post('/api/login', {
+                    email: this.email,
+                    password: this.password,
+                }).then(response => {
+                    const token = res.data.access_token;
+                    console.log('res');
+                    axios.defaults.headers.common['Authorization'] = 'Bearer' + token;
+                    state.isLogin = true;
+                    this.router.push({ path: '/' });
+                }).catch(error => {
+                    this.isError = true;
                 });
             }
-        }
+        },
+        // mounted() {
+        //     console.log('Component mounted.')
+        // },
     }
 </script>

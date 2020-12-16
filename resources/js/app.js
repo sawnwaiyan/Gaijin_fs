@@ -16,11 +16,11 @@ import Vue from 'vue';
 Vue.router = router;
 
 Vue.component('Index', Index);
-const app = new Vue(Vue.util.extend({ router }, Index)).$mount('#app');
-// const app = new Vue({
-//     el: '#app',
-//     router,
-//     component: {
-//         Index
-//     }
-// });
+// const app = new Vue(Vue.util.extend({ router }, Index)).$mount('#app');
+const app = new Vue({
+    el: '#app',
+    router,
+    component: {
+        Index
+    }
+});

@@ -2208,35 +2208,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  state: {
-    isLogin: false
-  },
   data: function data() {
     return {
-      products: []
+      isError: false,
+      email: '',
+      password: ''
     };
   },
-  created: function created() {
-    var _this = this;
-
-    this.axios.get('/api/product').then(function (response) {
-      _this.products = response.data;
-      console.log(_this.products);
-    });
-  },
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  created: function created() {// this.axios.get('/api/product').then(response=>{
+    //     this.products = response.data;
+    //     console.log(this.products);
+    // });
   },
   methods: {
-    deleteProduct: function deleteProduct(id) {
-      var _this2 = this;
+    login: function login() {
+      var _this = this;
 
-      console.log(id);
-      this.axios["delete"]("/api/product/delete/".concat(id)).then(function (response) {
-        console.log(_this2.response.data);
+      console.log('login');
+      this.axios.post('/api/login', {
+        email: this.email,
+        password: this.password
+      }).then(function (response) {
+        var token = res.data.access_token;
+        console.log('res');
+        axios.defaults.headers.common['Authorization'] = 'Bearer' + token;
+        state.isLogin = true;
+
+        _this.router.push({
+          path: '/'
+        });
+      })["catch"](function (error) {
+        _this.isError = true;
       });
     }
-  }
+  } // mounted() {
+  //     console.log('Component mounted.')
+  // },
+
 });
 
 /***/ }),
@@ -38979,55 +38987,88 @@ var render = function() {
   return _c("div", { staticClass: "row justify-content-center" }, [
     _c("div", { staticClass: "col-md-8" }, [
       _c("div", { staticClass: "card card-default" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Product List")]),
+        _c("div", { staticClass: "card-header" }, [_vm._v("Login")]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
-          _c(
-            "ul",
-            { staticClass: "list-group" },
-            _vm._l(_vm.products, function(product) {
-              return _c(
-                "li",
-                { key: product.id, staticClass: "list-item list-group-item" },
-                [
-                  _vm._v(
-                    "\n                          " +
-                      _vm._s(product.name) +
-                      "\n                          "
-                  ),
-                  _c(
-                    "router-link",
+          _c("div", [
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.isError,
+                    expression: "isError"
+                  }
+                ]
+              },
+              [_vm._v("認証に失敗しました。")]
+            ),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.login($event)
+                  }
+                }
+              },
+              [
+                _c("h1", [_vm._v("ログイン")]),
+                _vm._v("\n                          メールアドレス: "),
+                _c("input", {
+                  directives: [
                     {
-                      staticClass: "btn btn-primary",
-                      attrs: {
-                        to: { name: "productedit", params: { id: product.id } }
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.email,
+                      expression: "email"
+                    }
+                  ],
+                  attrs: { type: "email" },
+                  domProps: { value: _vm.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
                       }
-                    },
-                    [
-                      _vm._v(
-                        "\n                              Edit\n                          "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
+                      _vm.email = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v("\n                          パスワード: "),
+                _c("input", {
+                  directives: [
                     {
-                      staticClass: "btn btn-danger",
-                      on: {
-                        click: function($event) {
-                          return _vm.deleteProduct(product.id)
-                        }
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.password,
+                      expression: "password"
+                    }
+                  ],
+                  attrs: { type: "password" },
+                  domProps: { value: _vm.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
                       }
-                    },
-                    [_vm._v("Delete")]
-                  )
-                ],
-                1
-              )
-            }),
-            0
-          )
+                      _vm.password = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                  [_vm._v("ログイン")]
+                )
+              ]
+            )
+          ])
         ])
       ])
     ])
@@ -54398,16 +54439,15 @@ vue__WEBPACK_IMPORTED_MODULE_5___default.a.use(vue_axios__WEBPACK_IMPORTED_MODUL
 
 
 vue__WEBPACK_IMPORTED_MODULE_5___default.a.router = _router__WEBPACK_IMPORTED_MODULE_4__["default"];
-vue__WEBPACK_IMPORTED_MODULE_5___default.a.component('Index', _Index__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var app = new vue__WEBPACK_IMPORTED_MODULE_5___default.a(vue__WEBPACK_IMPORTED_MODULE_5___default.a.util.extend({
-  router: _router__WEBPACK_IMPORTED_MODULE_4__["default"]
-}, _Index__WEBPACK_IMPORTED_MODULE_1__["default"])).$mount('#app'); // const app = new Vue({
-//     el: '#app',
-//     router,
-//     component: {
-//         Index
-//     }
-// });
+vue__WEBPACK_IMPORTED_MODULE_5___default.a.component('Index', _Index__WEBPACK_IMPORTED_MODULE_1__["default"]); // const app = new Vue(Vue.util.extend({ router }, Index)).$mount('#app');
+
+var app = new vue__WEBPACK_IMPORTED_MODULE_5___default.a({
+  el: '#app',
+  router: _router__WEBPACK_IMPORTED_MODULE_4__["default"],
+  component: {
+    Index: _Index__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }
+});
 
 /***/ }),
 
@@ -54888,6 +54928,24 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   history: true,
   mode: 'history',
   routes: routes
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  })) {
+    if (state.isLogin === false) {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
