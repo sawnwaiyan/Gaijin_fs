@@ -18,12 +18,18 @@ use Illuminate\Http\Request;
 // });
 
 Route::post('/login', 'AuthController@login');
-Route::group(['middleware' => 'auth:api'],function () {
-    Route::get('/me','AuthController@me');
+// Route::group(['middleware' => 'auth:api'],function () {
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+    
+], function ($router) {
+    Route::get('/me', 'AuthController@me');
     Route::post('/logout', 'AuthController@logout');
+    Route::get('/product', 'ProductController@index');
 });
 
-Route::get('/product', 'ProductController@index');
+
 Route::post('/product/create', 'ProductController@register');
 Route::get('/product/edit/{id}', 'ProductController@edit');
 Route::post('/product/update/{id}', 'ProductController@update');

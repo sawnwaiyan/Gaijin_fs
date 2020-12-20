@@ -13,6 +13,8 @@ Vue.use(VueAxios, axios);
 
 import router from './router';
 import Vue from 'vue';
+import store from './store';
+window.state = store.state;
 Vue.router = router;
 
 Vue.component('Index', Index);

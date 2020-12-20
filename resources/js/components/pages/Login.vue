@@ -41,12 +41,14 @@
                 this.axios.post('/api/login', {
                     email: this.email,
                     password: this.password,
-                }).then(response => {
+                }).then(res => {
                     const token = res.data.access_token;
                     console.log('res');
-                    axios.defaults.headers.common['Authorization'] = 'Bearer' + token;
+                    this.axios.defaults.headers.common['Authorization'] = 'Bearer' + token;
+                    console.log('bearer');
+                    console.log(token);
                     state.isLogin = true;
-                    this.router.push({ path: '/' });
+                    this.$router.push({ path: '/user' });
                 }).catch(error => {
                     this.isError = true;
                 });

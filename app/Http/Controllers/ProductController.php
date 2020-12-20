@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductCollection;
 use App\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     public function index() {
-        $products = Product::all();
-        return response()->json($products);
+        if(Auth::check()) {
+            $products = Product::all();
+            return response()->json($products);
+        }
     }
 
     public function register(Request $request) {
