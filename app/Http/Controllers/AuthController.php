@@ -45,7 +45,8 @@ class AuthController extends Controller
         // return response()->json(['message' => 'Logged out']);
         // $user = auth()->user();
         // $users = User::All();
-        return response()->json(auth()->user());
+        $user = Auth::user();
+        return response()->json($user);
     }
 
     protected function respondWithToken($token) {

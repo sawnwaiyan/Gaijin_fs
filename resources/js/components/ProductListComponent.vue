@@ -31,7 +31,7 @@
             }
         },
         created() {
-            this.axios.get('/api/product').then(response=>{
+            this.axios.get('/api/auth/product').then(response=>{
                 this.products = response.data;
                 console.log(this.products);
             });

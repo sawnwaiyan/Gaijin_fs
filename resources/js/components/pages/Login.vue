@@ -48,7 +48,7 @@
                     console.log('bearer');
                     console.log(token);
                     state.isLogin = true;
-                    this.$router.push({ path: '/user' });
+                    this.$router.push({ path: '/product' });
                 }).catch(error => {
                     this.isError = true;
                 });

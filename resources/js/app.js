@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 import Index from './Index';
+import App from './App';
 
 import VueAxios from 'vue-axios';
 import axios from 'axios';
@@ -18,11 +19,13 @@ window.state = store.state;
 Vue.router = router;
 
 Vue.component('Index', Index);
+Vue.component('App',App);
 // const app = new Vue(Vue.util.extend({ router }, Index)).$mount('#app');
 const app = new Vue({
     el: '#app',
     router,
     component: {
-        Index
+        app
+        // Index
     }
 });

@@ -28,15 +28,15 @@
         data () {
             return {
                 isError: false,
-                user: {}
+                user: []
             }
         },
         created() {
             console.log(state.isLogin);
-            this.axios.get('/api/me').then(res => {
+            this.axios.get('/api/auth/me').then(res => {
                 console.log('xxxxxx');
                 this.user = res.data;
-                // console.log(this.user);
+                console.log(this.user);
             }).catch(error => {
                 console.log('catch');
                 this.isError = true;
